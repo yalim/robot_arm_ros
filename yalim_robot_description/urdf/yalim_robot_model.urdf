@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<robot name="yalim">
+  
+  <material name="white">
+    <color rgba="1 1 1 1.0"/>
+  </material>
+  
+  <link name="world"/>
+  
+  <link name="base_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://yalim_robot_description/meshes/base_motor-binary.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="white"/>
+    </visual>
+  </link>
+  
+  <joint name="fixed" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+  
+  <joint name="torso" type="continuous">
+    <parent link="base_link"/>
+    <child link="torso"/>
+    <child link="torso_motor"/>
+    <origin rpy="0 0 0" xyz="0 0 0.04"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  
+  <link name="torso">
+    <visual>
+      <origin rpy="0 -1.57 1.57" xyz="0 0 0.01"/>
+        <geometry>
+          <mesh filename="package://yalim_robot_description/meshes/link3_motor-binary.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="white"/>
+    </visual>
+  </link>
+
+    <joint name="shoulder" type="continuous">
+      <parent link="torso"/>
+      <child link="shoulder"/>
+      <origin rpy="0 0 1.57" xyz="0 0 0.05"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+    
+    <link name="shoulder">
+      <visual>
+        <origin rpy="0 -1.57 0" xyz="0 0 0.045"/>
+        <geometry>
+          <mesh filename="package://yalim_robot_description/meshes/link1_motor-binary.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+    </link>
+
+    <joint name="elbow" type="continuous">
+      <parent link="shoulder"/>
+      <child link="elbow"/>
+      <origin rpy="0 0 0" xyz="0 0 0.13"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+    
+    <link name="elbow">
+      <visual>
+        <origin rpy="0 -1.57 3.14" xyz="0 0 0.045"/>
+        <geometry>
+          <mesh filename="package://yalim_robot_description/meshes/link2_motor-binary.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+    </link>
+
+    <joint name="wrist" type="continuous">
+      <parent link="elbow"/>
+      <child link="wrist"/>
+      <origin rpy="0 0 0" xyz="0 0 0.095"/>
+      <axis xyz="0 0 1"/>
+    </joint>
+
+  <link name="wrist">
+    <visual>
+      <origin rpy="0 -1.57 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://yalim_robot_description/meshes/link3_motor-binary.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="white"/>
+    </visual>
+  </link>
+
+  <joint name="wrist_2" type="continuous">
+      <parent link="wrist"/>
+      <child link="wrist_2"/>
+      <origin rpy="0 0 0" xyz="0 0 0.04"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="wrist_2">
+      <visual>
+        <origin rpy="0 0 3.14" xyz="0 0 0.015"/>
+        <geometry>
+          <mesh filename="package://yalim_robot_description/meshes/link4-binary.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+    </link>
+
+
+
+</robot>
