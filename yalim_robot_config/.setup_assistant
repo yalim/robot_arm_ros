@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: yalim_robot_description
+    relative_path: urdf/yalim_robot_model.urdf
+  SRDF:
+    relative_path: config/yalim.srdf
+  CONFIG:
+    author_name: yalim
+    author_email: isleyici@ee.bilkent.edu.tr
+    generated_timestamp: 1499253017

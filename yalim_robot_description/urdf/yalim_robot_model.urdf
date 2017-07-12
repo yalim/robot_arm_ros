@@ -22,7 +22,7 @@
     <child link="base_link"/>
   </joint>
   
-  <joint name="torso" type="continuous">
+  <joint name="joint_0" type="continuous">
     <parent link="base_link"/>
     <child link="torso"/>
     <child link="torso_motor"/>
@@ -32,7 +32,7 @@
   
   <link name="torso">
     <visual>
-      <origin rpy="0 -1.57 1.57" xyz="0 0 0.01"/>
+      <origin rpy="0 0 0" xyz="0 0 0.01"/>
         <geometry>
           <mesh filename="package://yalim_robot_description/meshes/link3_motor-binary.stl" scale="0.001 0.001 0.001"/>
         </geometry>
@@ -40,24 +40,33 @@
     </visual>
   </link>
 
-    <joint name="shoulder" type="continuous">
+    <joint name="joint_1" type="continuous">
       <parent link="torso"/>
       <child link="shoulder"/>
-      <origin rpy="0 0 1.57" xyz="0 0 0.05"/>
+      <origin rpy="0 0 0" xyz="0 0 0.05"/>
       <axis xyz="0 1 0"/>
     </joint>
     
     <link name="shoulder">
       <visual>
-        <origin rpy="0 -1.57 0" xyz="0 0 0.045"/>
+        <origin rpy="0 0 0" xyz="0 0 0.045"/>
         <geometry>
           <mesh filename="package://yalim_robot_description/meshes/link1_motor-binary.stl" scale="0.001 0.001 0.001"/>
         </geometry>
         <material name="white"/>
       </visual>
+    <!--  <collision>
+        <geometry>
+          <cylinder length="100" radius="50"/>
+        </geometry>
+      </collision>
+      <inertal>
+        <mass value="0.7"/>
+        <inertia ixx="0,102956" ixy="0,991843" ixz="0,075152" iyx=""/>
+      </inertial> -->
     </link>
 
-    <joint name="elbow" type="continuous">
+    <joint name="joint_2" type="continuous">
       <parent link="shoulder"/>
       <child link="elbow"/>
       <origin rpy="0 0 0" xyz="0 0 0.13"/>
@@ -66,7 +75,7 @@
     
     <link name="elbow">
       <visual>
-        <origin rpy="0 -1.57 3.14" xyz="0 0 0.045"/>
+        <origin rpy="0 0 0" xyz="0 0 0.045"/>
         <geometry>
           <mesh filename="package://yalim_robot_description/meshes/link2_motor-binary.stl" scale="0.001 0.001 0.001"/>
         </geometry>
@@ -74,7 +83,7 @@
       </visual>
     </link>
 
-    <joint name="wrist" type="continuous">
+    <joint name="joint_3" type="continuous">
       <parent link="elbow"/>
       <child link="wrist"/>
       <origin rpy="0 0 0" xyz="0 0 0.095"/>
@@ -83,7 +92,7 @@
 
   <link name="wrist">
     <visual>
-      <origin rpy="0 -1.57 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
           <mesh filename="package://yalim_robot_description/meshes/link3_motor-binary.stl" scale="0.001 0.001 0.001"/>
         </geometry>
@@ -91,7 +100,7 @@
     </visual>
   </link>
 
-  <joint name="wrist_2" type="continuous">
+  <joint name="joint_4" type="continuous">
       <parent link="wrist"/>
       <child link="wrist_2"/>
       <origin rpy="0 0 0" xyz="0 0 0.04"/>
@@ -100,7 +109,7 @@
 
     <link name="wrist_2">
       <visual>
-        <origin rpy="0 0 3.14" xyz="0 0 0.015"/>
+        <origin rpy="0 0 0" xyz="0 0 0.015"/>
         <geometry>
           <mesh filename="package://yalim_robot_description/meshes/link4-binary.stl" scale="0.001 0.001 0.001"/>
         </geometry>
