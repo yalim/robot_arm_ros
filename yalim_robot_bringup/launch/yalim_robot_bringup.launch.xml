@@ -1,0 +1,10 @@
+<!-- Yalim bot bringup file-->
+<launch>
+    <arg name="sim" default="true"/>
+    <param name="sim" value="$(arg sim)"/>
+    <include file="$(find yalim_robot_config)/launch/demo.launch"/>
+    <node name="robot_arm_server" pkg="yalim_robot_bringup" type="send_goal_server.py"/>
+    <arg name="port" default="/dev/ttyACM0"/>
+    <param name="ros_to_arduino/port" value="$(arg port)"/>
+    <node name="ros_to_arduino" pkg="rosserial_python" type="serial_node.py" unless="$(arg sim)"/>
+</launch>

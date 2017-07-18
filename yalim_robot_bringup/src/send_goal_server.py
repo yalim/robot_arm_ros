@@ -17,7 +17,9 @@ class MoveArmServer:
         self.group = moveit_commander.MoveGroupCommander("arm")
 
     def execute(self, goal):
+        print 1
         self.group.set_pose_target(goal.goal_pose)
+        print 2
         plan1 = self.group.plan()
         self.group.execute(plan1)
 

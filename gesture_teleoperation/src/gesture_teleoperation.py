@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import roslib
+# import roslib
 import rospy
 import smach
 import smach_ros
@@ -12,7 +12,7 @@ from utils.topic_reader import topic_reader_state
 # from utils.utils import fifo_array
 # from utils.utils import bcolors
 from std_msgs.msg import Int32
-from geometry_msgs.msg import PoseStamped
+# from geometry_msgs.msg import PoseStamped
 from yalim_robot_bringup.msg import RobotArmAction, RobotArmGoal
 # roslib.load_manifest('gesture_teleoperation')
 
@@ -116,40 +116,42 @@ from yalim_robot_bringup.msg import RobotArmAction, RobotArmGoal
 #         return 'succeed'
 
 
-class GoalCreator(smach.State):
-    def __init__(self):
-        smach.State.__init__(self, outcomes=['succeeded', 'aborted'], input_keys=['gesture_id'], output_keys=['goal_position'])
-        self.goal = RobotArmGoal()
+# class GoalCreator(smach.State):
+#     def __init__(self):
+#         smach.State.__init__(self, outcomes=['succeeded', 'cancelled'], input_keys=['gesture_id'], output_keys=['goal_position'])
+#         self.ActionGoal = RobotArmGoal()
 
-    def execute(self, userdata):
-        rospy.loginfo('Detected Gesture: ', userdata.gesture_id)
-        self.goal.goal.goal_pose.header.seq = 1
-        self.goal.goal.goal_pose.stamp = rospy.Time()
-        self.goal.goal.goal_pose.frame_id = 'base_link'
-        if userdata.gesture_id == 0:
-            self.goal.goal.goal_pose.pose.position.x = 0.0
-            self.goal.goal.goal_pose.pose.position.y = 0.0
-            self.goal.goal.goal_pose.pose.position.z = 0.355
-            self.goal.goal.goal_pose.pose.orientation.x = 0.0
-            self.goal.goal.goal_pose.pose.orientation.y = 0.0
-            self.goal.goal.goal_pose.pose.orientation.z = 0.0
-            self.goal.goal.goal_pose.pose.orientation.w = 1.0
-            userdata.goal_position = self.goal
-            return 'succeeded'
-        if userdata.gesture_id == 1:
-            self.goal.goal.goal_pose.pose.position.x = -0.18
-            self.goal.goal.goal_pose.pose.position.y = 0.062
-            self.goal.goal.goal_pose.pose.position.z = 0.025
-            self.goal.goal.goal_pose.pose.orientation.x = 0.258
-            self.goal.goal.goal_pose.pose.orientation.y = 0.965
-            self.goal.goal.goal_pose.pose.orientation.z = 0.014
-            self.goal.goal.goal_pose.pose.orientation.w = -0.051
-            userdata.goal_position = self.goal
-        if userdata.gesture_id == 10:
-            return 'cancelled'
+#     def execute(self, userdata):
+#         # rospy.loginfo('Detected Gesture: ', userdata.gesture_id)
+#         return 'succeeded'
+#         self.ActionGoal.goal_pose.header.seq = 1
+#         self.ActionGoal.goal_pose.header.stamp = rospy.Time()
+#         self.ActionGoal.goal_pose.header.frame_id = 'base_link'
+#         if userdata.gesture_id.data == 0:
+#             self.ActionGoal.goal_pose.pose.position.x = 0.0
+#             self.ActionGoal.goal_pose.pose.position.y = 0.0
+#             self.ActionGoal.goal_pose.pose.position.z = 0.355
+#             self.ActionGoal.goal_pose.pose.orientation.x = 0.0
+#             self.ActionGoal.goal_pose.pose.orientation.y = 0.0
+#             self.ActionGoal.goal_pose.pose.orientation.z = 0.0
+#             self.ActionGoal.goal_pose.pose.orientation.w = 1.0
+#             userdata.goal_position = self.ActionGoal
+#             return 'succeeded'
+#         if userdata.gesture_id.data == 1:
+#             self.ActionGoal.goal_pose.pose.position.x = -0.18
+#             self.ActionGoal.goal_pose.pose.position.y = 0.062
+#             self.ActionGoal.goal_pose.pose.position.z = 0.025
+#             self.ActionGoal.goal_pose.pose.orientation.x = 0.258
+#             self.ActionGoal.goal_pose.pose.orientation.y = 0.965
+#             self.ActionGoal.goal_pose.pose.orientation.z = 0.014
+#             self.ActionGoal.goal_pose.pose.orientation.w = -0.051
+#             userdata.goal_position = self.ActionGoal
+#         if userdata.gesture_id.data == 10:
+#             return 'cancelled'
 
 
 def main():
+    """Main function."""
     rospy.init_node('gesture_teleoperation_node')
 
     # Create a SMACH state machine
@@ -172,21 +174,47 @@ def main():
         #                                     'cancelled': 'cancelled',
         #                                     'error': 'MOVE_ROBOT'})
 
+        def goal_callback(userdata, default_goal):
+            """Create goal based on detected gesture."""
+            rospy.loginfo("Detected gesture ID: " + str(userdata.gesture_id.data))
+            goal = RobotArmGoal()
+            goal.goal_pose.header.seq = 1
+            goal.goal_pose.header.stamp = rospy.Time()
+            goal.goal_pose.header.frame_id = 'base_link'
+            if userdata.gesture_id.data == 0:
+                goal.goal_pose.pose.position.x = -0.108
+                goal.goal_pose.pose.position.y = 0.062
+                goal.goal_pose.pose.position.z = 0.025
+                goal.goal_pose.pose.orientation.x = 0.258
+                goal.goal_pose.pose.orientation.y = 0.965
+                goal.goal_pose.pose.orientation.z = 0.014
+                goal.goal_pose.pose.orientation.w = -0.051
+            if userdata.gesture_id.data == 1:
+                goal.goal_pose.pose.position.x = 0.0
+                goal.goal_pose.pose.position.y = 0.0
+                goal.goal_pose.pose.position.z = 0.355
+                goal.goal_pose.pose.orientation.x = 0.0
+                goal.goal_pose.pose.orientation.y = 0.0
+                goal.goal_pose.pose.orientation.z = 0.0
+                goal.goal_pose.pose.orientation.w = 1.0
+            return goal
+
         smach.StateMachine.add('GESTURE_READER', topic_reader_state('detected_gesture', Int32, 60),
-                               transitions={'succeeded': 'CREATE_GOAL', 'preempted': 'GESTURE_READER', 'aborted': 'GESTURE_READER'},
+                               transitions={'succeeded': 'MOVE_ARM_ACTION', 'preempted': 'GESTURE_READER', 'aborted': 'GESTURE_READER'},
                                remapping={'topic_output_msg': 'gesture_id'})
 
-        smach.StateMachine.add('CREATE_GOAL', GoalCreator(),
-                              transitions={'succeeded': 'MOVE_ARM_ACTION', 'cancelled': 'GESTURE_READER'})
+        # smach.StateMachine.add('CREATE_GOAL', GoalCreator(),
+        #                       transitions={'succeeded': 'MOVE_ARM_ACTION', 'cancelled': 'GESTURE_READER'})
 
         smach.StateMachine.add('MOVE_ARM_ACTION',
                                smach_ros.SimpleActionState('move_arm',
                                                            RobotArmAction,
-                                                           goal_slots=['pose']),
-                               transitions={'succeeded': 'GESTURE_READER'},
-                               remapping={'goal_position': 'pose'})
+                                                           goal_cb=goal_callback,
+                                                           input_keys=['gesture_id']),
+                               transitions={'succeeded': 'GESTURE_READER', 'preempted': 'GESTURE_READER', 'aborted': 'GESTURE_READER'})
     # Execute SMACH plan
     outcome = sm.execute()
+    print(outcome)
 
 
 if __name__ == '__main__':

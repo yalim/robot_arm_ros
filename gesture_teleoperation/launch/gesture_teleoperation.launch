@@ -1,4 +1,4 @@
 <launch>
   <node name="gesture_teleoperation" pkg="gesture_teleoperation" type="gesture_teleoperation.py" output="screen"/>
-  <node name="imu_publisher" pkg="gesture_teleoperation" type="sensor_publisher.py" output="screen"/>
+<!--  <node name="imu_publisher" pkg="gesture_teleoperation" type="sensor_publisher.py" output="screen"/> -->
 </launch>
