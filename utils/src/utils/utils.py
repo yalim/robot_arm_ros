@@ -3,38 +3,39 @@ from keras.models import Sequential
 from keras.layers import Merge
 from keras.layers.core import Dense
 from keras.layers.recurrent import LSTM
+import numpy as np
 
-N_dense = 99
-N_LSTM = 44
-model_x_acc = Sequential()
-model_x_acc.add(LSTM(N_LSTM, input_shape=(100, 1)))
-model_y_acc = Sequential()
-model_y_acc.add(LSTM(N_LSTM, input_shape=(100, 1)))
-model_z_acc = Sequential()
-model_z_acc.add(LSTM(N_LSTM, input_shape=(100, 1)))
+#N_dense = 99
+#N_LSTM = 44
+#model_x_acc = Sequential()
+#model_x_acc.add(LSTM(N_LSTM, input_shape=(100, 1)))
+#model_y_acc = Sequential()
+#model_y_acc.add(LSTM(N_LSTM, input_shape=(100, 1)))
+#model_z_acc = Sequential()
+#model_z_acc.add(LSTM(N_LSTM, input_shape=(100, 1)))
 
-model_x_gyr = Sequential()
-model_x_gyr.add(LSTM(N_LSTM, input_shape=(100, 1)))
-model_y_gyr = Sequential()
-model_y_gyr.add(LSTM(N_LSTM, input_shape=(100, 1)))
-model_z_gyr = Sequential()
-model_z_gyr.add(LSTM(N_LSTM, input_shape=(100, 1)))
+#model_x_gyr = Sequential()
+#model_x_gyr.add(LSTM(N_LSTM, input_shape=(100, 1)))
+#model_y_gyr = Sequential()
+#model_y_gyr.add(LSTM(N_LSTM, input_shape=(100, 1)))
+#model_z_gyr = Sequential()
+#model_z_gyr.add(LSTM(N_LSTM, input_shape=(100, 1)))
 
-merged = Merge([model_x_acc,
-                model_y_acc,
-                model_z_acc,
-                model_x_gyr,
-                model_y_gyr,
-                model_z_gyr],
-               mode='concat')
+#merged = Merge([model_x_acc,
+ #               model_y_acc,
+  #              model_z_acc,
+   #             model_x_gyr,
+    #            model_y_gyr,
+     #           model_z_gyr],
+      #         mode='concat')
 
-lstm_gesture_classification = Sequential()
-lstm_gesture_classification.add(merged)
-lstm_gesture_classification.add(Dense(N_dense, activation='relu'))
-lstm_gesture_classification.add(Dense(9, activation='softmax'))
+#lstm_gesture_classification = Sequential()
+#lstm_gesture_classification.add(merged)
+#lstm_gesture_classification.add(Dense(N_dense, activation='relu'))
+#lstm_gesture_classification.add(Dense(9, activation='softmax'))
 
-lstm_gesture_classification.load_weights('gr_keras_weights.h5')
-noise_vs_gesture = load_model('noise_vs_gesture_keras_model.h5')
+#lstm_gesture_classification.load_weights('gr_keras_weights.h5')
+#noise_vs_gesture = load_model('noise_vs_gesture_keras_model.h5')
 
 class fifo_array():
     """

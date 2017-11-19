@@ -1,4 +1,5 @@
 <launch>
   <node name="gesture_teleoperation" pkg="gesture_teleoperation" type="gesture_teleoperation.py" output="screen"/>
-<!--  <node name="imu_publisher" pkg="gesture_teleoperation" type="sensor_publisher.py" output="screen"/> -->
+  <node name="imu_publisher" pkg="gesture_teleoperation" type="sensor_publisher.py" output="screen"/>
+  <node name="rt_gesture_recognition" pkg="gesture_teleoperation" type="real_time_gesture_recognition.py" output="screen"/>
 </launch>

@@ -199,7 +199,7 @@ def main():
                 goal.goal_pose.pose.orientation.w = 1.0
             return goal
 
-        smach.StateMachine.add('GESTURE_READER', topic_reader_state('detected_gesture', Int32, 60),
+        smach.StateMachine.add('GESTURE_READER', topic_reader_state('gesture_teleoperation/detected_gesture', Int32, 60),
                                transitions={'succeeded': 'MOVE_ARM_ACTION', 'preempted': 'GESTURE_READER', 'aborted': 'GESTURE_READER'},
                                remapping={'topic_output_msg': 'gesture_id'})
 
